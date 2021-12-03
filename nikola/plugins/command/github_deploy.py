@@ -96,7 +96,10 @@ class CommandGitHubDeploy(Command):
 
         # Clean non-target files
         only_on_output, _ = real_scan_files(self.site)
+        extra_files_for_github_deploy = set(self.site.config['EXTRA_FILES_FOR_GITHUB_DEPLOY'])
         for f in only_on_output:
+            if f in extra_files_for_github_deploy:
+                continue
             os.unlink(f)
 
         # Remove drafts and future posts if requested (Issue #2406)
